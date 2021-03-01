@@ -1,4 +1,5 @@
 Welcome to our Translator Chat!
+Attention: GOOGLE CLOUD FREE TRIAL HAS ENDED. So this link does not allow translation but all the code remains in client/components/mainComponent/message2.js if interested!
 
 Getting started:
 
