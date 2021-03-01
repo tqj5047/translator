@@ -1,13 +1,13 @@
 /* eslint-disable */
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   getAllMessages,
   postAMessage,
   translateOne,
   translateAll
 } from '../../store/reducers/message'
-import {fetchUserFriends} from '../../store/reducers/userFriends'
-import {connect} from 'react-redux'
+import { fetchUserFriends } from '../../store/reducers/userFriends'
+import { connect } from 'react-redux'
 import Loader from 'react-loader-spinner'
 import socket from '../../socket'
 import LoadingView from '../loadingView'
@@ -63,12 +63,12 @@ export class Messages extends Component {
         showTrans: false
       })
     }
-    if (this.props.messages !== prevProps.messages) {
-      this.props.translateAll(this.props.messages, this.props.user.language)
-    }
-    if (this.props.messages !== prevProps.messages) {
-      this.props.translateAll(this.props.messages, this.props.user.language)
-    }
+    // if (this.props.messages !== prevProps.messages) {
+    //   this.props.translateAll(this.props.messages, this.props.user.language)
+    // }
+    // if (this.props.messages !== prevProps.messages) {
+    //   this.props.translateAll(this.props.messages, this.props.user.language)
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,7 +83,7 @@ export class Messages extends Component {
   }
 
   handleVoiceOnChange(voice) {
-    this.setState({value: voice})
+    this.setState({ value: voice })
     let bool = true
     socket.emit('user typing', {
       typerId: this.props.userId,
@@ -93,7 +93,7 @@ export class Messages extends Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value})
+    this.setState({ value: event.target.value })
     let bool = false
     event.target.value !== '' ? (bool = true) : (bool = false)
     socket.emit('user typing', {
@@ -123,23 +123,23 @@ export class Messages extends Component {
   }
 
   toggleShowTrans() {
-    let {showTrans} = this.state
+    let { showTrans } = this.state
     this.setState({
       showTrans: !showTrans
     })
   }
 
   toggle() {
-    this.setState(prevState => ({toggleMemes: !prevState.toggleMemes}))
+    this.setState(prevState => ({ toggleMemes: !prevState.toggleMemes }))
   }
   toggle2() {
-    this.setState(prevState => ({toggleColor: !prevState.toggleColor}))
+    this.setState(prevState => ({ toggleColor: !prevState.toggleColor }))
   }
   // switch to the store
   async translate(text, lan, messageId) {
     try {
       this.props.translateOne(text, lan, messageId)
-      let {showTrans} = this.state
+      let { showTrans } = this.state
       await this.setState({
         showTrans: !showTrans,
         translate: this.props.translate
@@ -159,7 +159,7 @@ export class Messages extends Component {
   }
 
   handleChangeColor = color => {
-    this.setState({background: color.hex})
+    this.setState({ background: color.hex })
   }
 
   render() {
@@ -178,7 +178,7 @@ export class Messages extends Component {
         </Alert>
         <div
           className="flex-grow-1 overflow-auto"
-          style={{backgroundColor: `${this.state.background}`}}
+          style={{ backgroundColor: `${this.state.background}` }}
         >
           <div className="d-flex flex-column align-items-start justify-content-end ">
             {translated &&
@@ -189,12 +189,11 @@ export class Messages extends Component {
                   <div
                     ref={lastMsg ? this.lastMsgRef : null}
                     key={message.id}
-                    style={{maxWidth: '80%'}}
-                    className={`my-1 d-flex flex-column ${
-                      message.receiverId === this.props.userId
-                        ? 'align-items-start'
-                        : 'align-self-end align-items-end'
-                    }`}
+                    style={{ maxWidth: '80%' }}
+                    className={`my-1 d-flex flex-column ${message.receiverId === this.props.userId
+                      ? 'align-items-start'
+                      : 'align-self-end align-items-end'
+                      }`}
                   >
                     {this.state.showTrans ? (
                       <div
@@ -219,36 +218,36 @@ export class Messages extends Component {
                             <img src={message.URL} className="img-gif" />
                           </OverlayTrigger>
                         ) : (
-                          message.translation
-                        )}
+                            message.translation
+                          )}
                       </div>
                     ) : (
-                      <div
-                        className={
-                          'messages' +
-                          (message.receiverId === this.props.userId
-                            ? 'receiver'
-                            : 'sender') +
-                          (message.isImage ? 'img' : '')
-                        }
-                      >
-                        {message.isImage ? (
-                          <OverlayTrigger
-                            key="placement"
-                            placement="top"
-                            overlay={
-                              <Tooltip id="tooltip-top">
-                                {message.translation}
-                              </Tooltip>
-                            }
-                          >
-                            <img src={message.URL} className="img-gif" />
-                          </OverlayTrigger>
-                        ) : (
-                          message.text
-                        )}
-                      </div>
-                    )}
+                        <div
+                          className={
+                            'messages' +
+                            (message.receiverId === this.props.userId
+                              ? 'receiver'
+                              : 'sender') +
+                            (message.isImage ? 'img' : '')
+                          }
+                        >
+                          {message.isImage ? (
+                            <OverlayTrigger
+                              key="placement"
+                              placement="top"
+                              overlay={
+                                <Tooltip id="tooltip-top">
+                                  {message.translation}
+                                </Tooltip>
+                              }
+                            >
+                              <img src={message.URL} className="img-gif" />
+                            </OverlayTrigger>
+                          ) : (
+                              message.text
+                            )}
+                        </div>
+                      )}
                   </div>
                 )
               })}
