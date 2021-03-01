@@ -72,11 +72,11 @@ export class Messages extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // if (this.props.translate !== nextProps.translate) {
-    //   this.setState({
-    //     translate: this.props.translate
-    //   })
-    // }
+    if (this.props.translate !== nextProps.translate) {
+      this.setState({
+        translate: this.props.translate
+      })
+    }
     if (this.lastMsgRef.current) {
       this.lastMsgRef.current.scrollIntoView()
     }
@@ -181,75 +181,77 @@ export class Messages extends Component {
           style={{backgroundColor: `${this.state.background}`}}
         >
           <div className="d-flex flex-column align-items-start justify-content-end ">
-            {this.props.messages.map((message, index) => {
-              const lastMsg = translated.translation.length - 1 === index
-              return (
-                <div
-                  ref={lastMsg ? this.lastMsgRef : null}
-                  key={message.id}
-                  style={{maxWidth: '80%'}}
-                  className={`my-1 d-flex flex-column ${
-                    message.receiverId === this.props.userId
-                      ? 'align-items-start'
-                      : 'align-self-end align-items-end'
-                  }`}
-                >
-                  {this.state.showTrans ? (
-                    <div
-                      className={
-                        'messages' +
-                        (message.receiverId === this.props.userId
-                          ? 'receiver'
-                          : 'sender') +
-                        (message.isImage ? 'img' : '')
-                      }
-                    >
-                      {message.isImage ? (
-                        <OverlayTrigger
-                          key="placement"
-                          placement="top"
-                          overlay={
-                            <Tooltip id="tooltip-top">
-                              {message.translation}
-                            </Tooltip>
-                          }
-                        >
-                          <img src={message.URL} className="img-gif" />
-                        </OverlayTrigger>
-                      ) : (
-                        message.translation
-                      )}
-                    </div>
-                  ) : (
-                    <div
-                      className={
-                        'messages' +
-                        (message.receiverId === this.props.userId
-                          ? 'receiver'
-                          : 'sender') +
-                        (message.isImage ? 'img' : '')
-                      }
-                    >
-                      {message.isImage ? (
-                        <OverlayTrigger
-                          key="placement"
-                          placement="top"
-                          overlay={
-                            <Tooltip id="tooltip-top">
-                              {message.translation}
-                            </Tooltip>
-                          }
-                        >
-                          <img src={message.URL} className="img-gif" />
-                        </OverlayTrigger>
-                      ) : (
-                        message.text
-                      )}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
+            {translated &&
+              translated.translation &&
+              translated.translation.map((message, index) => {
+                const lastMsg = translated.translation.length - 1 === index
+                return (
+                  <div
+                    ref={lastMsg ? this.lastMsgRef : null}
+                    key={message.id}
+                    style={{maxWidth: '80%'}}
+                    className={`my-1 d-flex flex-column ${
+                      message.receiverId === this.props.userId
+                        ? 'align-items-start'
+                        : 'align-self-end align-items-end'
+                    }`}
+                  >
+                    {this.state.showTrans ? (
+                      <div
+                        className={
+                          'messages' +
+                          (message.receiverId === this.props.userId
+                            ? 'receiver'
+                            : 'sender') +
+                          (message.isImage ? 'img' : '')
+                        }
+                      >
+                        {message.isImage ? (
+                          <OverlayTrigger
+                            key="placement"
+                            placement="top"
+                            overlay={
+                              <Tooltip id="tooltip-top">
+                                {message.translation}
+                              </Tooltip>
+                            }
+                          >
+                            <img src={message.URL} className="img-gif" />
+                          </OverlayTrigger>
+                        ) : (
+                          message.translation
+                        )}
+                      </div>
+                    ) : (
+                      <div
+                        className={
+                          'messages' +
+                          (message.receiverId === this.props.userId
+                            ? 'receiver'
+                            : 'sender') +
+                          (message.isImage ? 'img' : '')
+                        }
+                      >
+                        {message.isImage ? (
+                          <OverlayTrigger
+                            key="placement"
+                            placement="top"
+                            overlay={
+                              <Tooltip id="tooltip-top">
+                                {message.translation}
+                              </Tooltip>
+                            }
+                          >
+                            <img src={message.URL} className="img-gif" />
+                          </OverlayTrigger>
+                        ) : (
+                          message.text
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
           </div>
         </div>
         <Input
