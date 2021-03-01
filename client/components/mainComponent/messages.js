@@ -182,7 +182,7 @@ export class Messages extends Component {
         >
           <div className="d-flex flex-column align-items-start justify-content-end ">
             {this.props.messages.map((message, index) => {
-              const lastMsg = translated.translation.length - 1 === index
+              const lastMsg = this.props.messages.length - 1 === index
               return (
                 <div
                   ref={lastMsg ? this.lastMsgRef : null}
